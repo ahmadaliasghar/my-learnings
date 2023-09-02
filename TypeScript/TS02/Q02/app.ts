@@ -1,0 +1,21 @@
+
+  let cart: string[] =[]
+
+  function addItem(item:string) {
+    cart.push(item)
+  }
+  function removeItem(index:number) {
+    cart.splice(index, 1)
+  }
+  function updateItem(index:number, item:string) {
+    cart.splice(index, 1, item)
+  }
+  
+  addItem("Cup");
+  addItem("Shirt");
+  addItem("Mobile");
+  console.log("Cart: ", cart);
+  removeItem(1);
+  console.log("After Removing item from cart: ", cart);
+  updateItem(0, "Mug")
+  console.log("After Updating item in cart: ", cart);

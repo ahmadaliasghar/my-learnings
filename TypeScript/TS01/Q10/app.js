@@ -1,23 +1,17 @@
 "use strict";
-let day = 3;
-if (day === 1) {
-    console.log("Day is Monday");
+const unitsConsumed = 250;
+let taxPercentage = 0;
+if (unitsConsumed > 500) {
+    taxPercentage = 0.25;
 }
-else if (day === 2) {
-    console.log("Day is Tuesday");
+else if (unitsConsumed > 200) {
+    taxPercentage = 0.15;
 }
-else if (day === 3) {
-    console.log("Day is Wednesday");
+else if (unitsConsumed > 100) {
+    taxPercentage = 0.10;
 }
-else if (day === 4) {
-    console.log("Day is Thursday");
-}
-else if (day === 5) {
-    console.log("Day is Friday");
-}
-else if (day === 6) {
-    console.log("Day is Saturday");
-}
-else {
-    console.log("Day is Sunday");
-}
+const baseRate = 45;
+const billAmount = unitsConsumed * baseRate;
+const taxAmount = billAmount * taxPercentage;
+const totalBill = billAmount + taxAmount;
+console.log(`Total Bill for ${unitsConsumed} units: ${totalBill.toFixed(2)} rupees`);
