@@ -1,8 +1,11 @@
 'use client'
+import Heart from '@/assets/icons/Heart'
 import { CldImage } from 'next-cloudinary'
+import { useRouter } from 'next/navigation'
 import React from 'react'
 
 const CloudinaryImage = (props:any) => {
+  
   return (
     <div>
        <CldImage 
@@ -13,6 +16,7 @@ const CloudinaryImage = (props:any) => {
         // alt="a phot of something"
         {...props}
         />
+        <Heart/>
     </div>
   )
 }
