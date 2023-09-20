@@ -33,6 +33,7 @@ const Gallery = async () => {
             <CloudinaryImage 
             key ={result.public_id}
             src={result.public_id}
+            publicId={result.public_id}
             alt="a photo"
               width="500"
               height="300"
