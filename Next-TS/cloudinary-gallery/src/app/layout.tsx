@@ -1,3 +1,4 @@
+import Sidebar from '@/components/ui/sidebar'
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
@@ -15,8 +16,15 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className='dark'>
-      <body className={inter.className}>{children}</body>
+    <html lang="en">
+      {/* <div className="flex dark"> */}
+        <div className="w-1/4">
+          <Sidebar />
+        </div>
+        {/* <div className="w-3/4 dark"> */}
+          <main className={inter.className}>{children}</main>
+        {/* </div> */}
+      {/* </div> */}
     </html>
   )
 }
