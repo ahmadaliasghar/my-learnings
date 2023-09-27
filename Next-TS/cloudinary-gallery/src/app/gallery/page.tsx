@@ -1,52 +1,39 @@
-import { Button } from "@/components/ui/button"
-import UploadButton from "./UploadButton"
-import cloudinary from "cloudinary"
-import { CldImage } from "next-cloudinary"
-import CloudinaryImage from "./CloudinaryImage"
-type UploadButton = {
-    info: {
-      public_id: string
-    },
-    event: "success"
-  }
+import UploadButton from "./upload-button";
+import cloudinary from "cloudinary";
+import GalleryGrid from "./gallery-grid";
+import { SearchForm } from "./search-form";
 
-export type SeacrchResult = {
-  public_id: string
-  tags: string[]
-}
+export type SearchResult = {
+  public_id: string;
+  tags: string[];
+};
 
-const Gallery = async () => {
-  const results = await cloudinary.v2.search
-  .expression('resource_type:image')
-  .sort_by("created_at", "desc")
-  .with_field("tags")
-  .max_results(20)
-  .execute() as {resources: SeacrchResult[]}
-  // .execute() as SeacrchResult[];
-  // .sort_by("public_id", "asc")
+export default async function GalleryPage({
+  searchParams: { search },
+}: {
+  searchParams: {
+    search: string;
+  };
+}) {
+  const results = (await cloudinary.v2.search
+    .expression(`resource_type:image${search ? ` AND tags=${search}` : ""}`)
+    .sort_by("created_at", "desc")
+    .with_field("tags")
+    .max_results(30)
+    .execute()) as { resources: SearchResult[] };
 
-    return (<>
-        <div className="flex justify-between p-4 container">
-           <h1 className="text-4xl font-bold">Gallery</h1>
-           <UploadButton/>
+  return (
+    <section>
+      <div className="flex flex-col gap-8">
+        <div className="flex justify-between">
+          <h1 className="text-4xl font-bold">Gallery</h1>
+          <UploadButton />
         </div>
-        <div className="grid grid-cols-4 gap-4 p-4">
-            {results.resources.map((result: any) => (
-            <CloudinaryImage 
-              key ={result.public_id}
-              src={result.public_id}
-              publicId={result.public_id}
-              path= "/gallery"
-              imageData={result}
-              alt="a photo"
-              width="500"
-              height="300"
-              sizes="100vw"
-              />
-            ))}
-        </div>
-        </>
-    )
-}
 
-export default Gallery
+        <SearchForm initialSearch={search} />
+
+        <GalleryGrid images={results.resources} />
+      </div>
+    </section>
+  );
+}

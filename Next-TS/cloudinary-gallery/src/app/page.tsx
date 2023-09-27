@@ -1,29 +1,37 @@
-'use client'
-import { Button } from '@/components/ui/button';
-import { CldUploadButton } from 'next-cloudinary';
-import { useState } from 'react';
-export default function Home() {
-  const [imageId, setImageId] = useState<string | null>(null);
+"use client";
 
-const handleUploadSuccess = (result: any) => {
-  setImageId(result.info.public_id);
+import { CldImage } from "next-cloudinary";
+import { CldUploadButton } from "next-cloudinary";
+import { useState } from "react";
+
+export type UploadResult = {
+  info: {
+    public_id: string;
+  };
+  event: "success";
 };
+
+export default function Home() {
+  const [imageId, setImageId] = useState("");
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-        
-        {/* {imageId && <CldImage
-          width="960"
-          height="600"
+      <CldUploadButton
+        onUpload={(result: UploadResult) => {
+          setImageId(result.info.public_id);
+        }}
+        uploadPreset="bn1nm4qr"
+      />
+
+      {imageId && (
+        <CldImage
+          width="500"
+          height="300"
           src={imageId}
           sizes="100vw"
           alt="Description of my image"
-        />} */}
-        <Button asChild>
-        <CldUploadButton
-  onUpload={(result: any) => handleUploadSuccess(result)}
-  uploadPreset="bn1nm4qr"
-/>
-          </Button>
+        />
+      )}
     </main>
-  )
+  );
 }
